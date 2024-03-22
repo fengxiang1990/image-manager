@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="V1__create_sys_user_table" author="fengxiang">
+       <sql>
+           CREATE TABLE IF NOT EXISTS sys_user (
+                                     id VARCHAR(256) PRIMARY KEY DEFAULT (UUID()),
+                                     username VARCHAR(255) NOT NULL,
+                                     password VARCHAR(255) NOT NULL,
+                                     create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                     update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                     last_login_time TIMESTAMP
+           );
+       </sql>
+    </changeSet>
+
+    <changeSet id="V2__insert_initial_sys_user_data" author="fengxiang">
+        <sql>
+            INSERT INTO sys_user (id,username, password, last_login_time) VALUES
+                                                                           (UUID(),'admin', '123456', NULL),
+                                                                           (UUID(),'admin1', '123456', NULL),
+                                                                           (UUID(),'admin2', '123456', NULL),
+                                                                           (UUID(),'admin3', '123456', NULL);
+        </sql>
+    </changeSet>
+
+<!--    1:菜单目录 2:菜单项 3:按钮-->
+    <changeSet id="V1__create_sys_permission_table" author="fengxiang">
+        <sql>
+            CREATE TABLE IF NOT EXISTS permission (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                code INT NOT NULL UNIQUE,
+                name VARCHAR(50) NOT NULL UNIQUE,
+                description VARCHAR(255),
+                parent INT,
+                level INT,
+                url VARCHAR(255) -- 仅在level为'菜单项'时有效
+                );
+        </sql>
+    </changeSet>
+
+    <changeSet id="V1__create_sys_role_table" author="fengxiang">
+        <sql>
+            CREATE TABLE IF NOT EXISTS role  (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(50) NOT NULL UNIQUE,
+                description VARCHAR(255)
+                );
+        </sql>
+    </changeSet>
+
+    <changeSet id="V1__create_sys_role_permission_table" author="fengxiang">
+        <sql>
+            CREATE TABLE IF NOT EXISTS role_permission  (
+                                                 role_id INT,
+                                                 permission_id INT,
+                                                 FOREIGN KEY (role_id) REFERENCES role(id),
+                FOREIGN KEY (permission_id) REFERENCES permission(id),
+                PRIMARY KEY (role_id, permission_id)
+                );
+        </sql>
+    </changeSet>
+
+    <changeSet id="V1__create_sys_user_role_table" author="fengxiang">
+        <sql>
+            CREATE TABLE IF NOT EXISTS user_role  (
+                user_id VARCHAR(256),
+                role_id INT,
+                FOREIGN KEY (user_id) REFERENCES sys_user(id),
+                FOREIGN KEY (role_id) REFERENCES role(id),
+                PRIMARY KEY (user_id, role_id)
+                );
+        </sql>
+    </changeSet>
+
+    <changeSet id="V1__insert_initial_sys_permission_data" author="fengxiang">
+        <sql>
+            -- 插入菜单级别的权限
+            INSERT INTO permission (code, name, description, level)
+            VALUES (10, '系统管理', '系统级的管理功能', 1),
+                   (20, '内容审核', '内容审核相关的功能', 1),
+                   (30, '配置管理', '系统配置相关的功能', 1);
+-- --             -- 插入细分菜单项级别的权限
+            INSERT INTO permission (code, name, description, parent, level, url)
+            VALUES (1, '个人中心', '个人中心', 0, 2, '/user_center'),
+                   (11, '用户管理', '管理用户信息', 10, 2, '/user'),
+                   (12, '角色管理', '管理角色信息', 10, 2, '/role'),
+                   (13, '权限管理', '管理系统权限', 10, 2, '/permission'),
+                   (14, '角色授权', '管理角色权限', 10, 2, '/role_permission'),
+                   (15, '用户授权', '管理角色权限', 10, 2, '/userrole'),
+                   (21, '图片审核', '审核图片内容', 20, 2, '/image_review'),
+                   (22, '评论审核', '审核用户评论', 20, 2, '/comment_review'),
+                   (31, '城市管理', '管理城市数据', 30, 2, '/city'),
+                   (32, '标签管理', '管理标签数据', 30, 2, '/label'),
+                   (33, '话题管理', '管理标签数据', 30, 2, '/topic');
+            --
+--  假设我们创建了几个角色，并关联一些权限
+            INSERT INTO role (name, description)
+            VALUES ('admin', '系统管理员角色'),
+                   ('admin_normal', '普通后台用户'),
+                   ('admin_content_manager', '后台管理-内容管理角色'),
+                   ('none', '什么权限都没有用于测试403页面');
+
+        </sql>
+    </changeSet>
+
+    <changeSet id="V1__insert_initial_sys_permission_data2" author="fengxiang">
+        <sql>
+            -- 假设管理员角色拥有所有权限
+            INSERT INTO role_permission (role_id, permission_id)
+            VALUES ((SELECT id FROM role WHERE name = 'admin'), (SELECT id FROM permission WHERE code = 10)),
+                   ((SELECT id FROM role WHERE name = 'admin'), (SELECT id FROM permission WHERE code = 20)),
+                   ((SELECT id FROM role WHERE name = 'admin'), (SELECT id FROM permission WHERE code = 1)),
+                   ((SELECT id FROM role WHERE name = 'admin'), (SELECT id FROM permission WHERE code = 30)),
+                   ((SELECT id FROM role WHERE name = 'admin'), (SELECT id FROM permission WHERE code = 11)),
+                   ((SELECT id FROM role WHERE name = 'admin'), (SELECT id FROM permission WHERE code = 12)),
+                   ((SELECT id FROM role WHERE name = 'admin'), (SELECT id FROM permission WHERE code = 13)),
+                   ((SELECT id FROM role WHERE name = 'admin'), (SELECT id FROM permission WHERE code = 14)),
+                   ((SELECT id FROM role WHERE name = 'admin'), (SELECT id FROM permission WHERE code = 21)),
+                   ((SELECT id FROM role WHERE name = 'admin'), (SELECT id FROM permission WHERE code = 22)),
+                   ((SELECT id FROM role WHERE name = 'admin'), (SELECT id FROM permission WHERE code = 31)),
+                   ((SELECT id FROM role WHERE name = 'admin'), (SELECT id FROM permission WHERE code = 32)),
+                   ((SELECT id FROM role WHERE name = 'admin'), (SELECT id FROM permission WHERE code = 33));
+-- 普通后台管理用户初始化权限
+            INSERT INTO role_permission (role_id, permission_id)
+            VALUES ((SELECT id FROM role WHERE name = 'admin_normal'), (SELECT id FROM permission WHERE code = 1));
+
+-- 假设内容编辑角色只有内容审核相关的权限
+            INSERT INTO role_permission (role_id, permission_id)
+            VALUES ((SELECT id FROM role WHERE name = 'admin_content_manager'), (SELECT id FROM permission WHERE code = 20)),
+                   ((SELECT id FROM role WHERE name = 'admin_content_manager'), (SELECT id FROM permission WHERE code = 21)),
+                   ((SELECT id FROM role WHERE name = 'admin_content_manager'), (SELECT id FROM permission WHERE code = 1)),
+                   ((SELECT id FROM role WHERE name = 'admin_content_manager'), (SELECT id FROM permission WHERE code = 22));
+
+        </sql>
+    </changeSet>
+
+    <changeSet id="V1__insert_initial_sys_user_role_data" author="fengxiang">
+        <sql>
+            INSERT INTO user_role (user_id, role_id) values
+                                                         ((select id from sys_user where username = 'admin'),(select id from role where name = 'admin')),
+                                                         ((select id from sys_user where username = 'admin1'),(select id from role where name = 'admin_normal')),
+                                                         ((select id from sys_user where username = 'admin2'),(select id from role where name = 'admin_content_manager')),
+                                                         ((select id from sys_user where username = 'admin3'),(select id from role where name = 'none'));
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
