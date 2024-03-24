@@ -1,0 +1,15 @@
+syntax = "proto3";
+option java_package = "com.fxa.image.client.proto.publish";
+option java_outer_classname = "ContentOuter";
+
+message Content {
+    string author = 1;//发布者UID
+    string title = 2;
+    string content = 3;
+    string image_url = 4;
+    int32 score = 5;//图片热度 根据浏览量来设计一个策略 浏览量越多 分数越高
+    int64 like_cnt = 6;//点赞数
+    int64 views = 7;//浏览量
+    repeated int32 topic = 8;//所属话题ID 一个或者多个
+    repeated int32 label = 9;//图片分类ID，一个或者多个
+}

@@ -1,0 +1,10 @@
+syntax = "proto3";
+option java_package = "com.fxa.image.client.proto.publish";
+option java_outer_classname = "LikeOuter";
+
+message Like {
+  string author = 1;//发布者UID
+  int64 content_id = 2;
+  int64 comment_id = 3;
+  bool like = 4; //true 为点赞 false 为取消点赞
+}

@@ -1,0 +1,10 @@
+syntax = "proto3";
+option java_package = "com.fxa.image.client.proto.publish";
+option java_outer_classname = "CommentOuter";
+
+message Comment {
+  string author = 1;//发布者UID
+  int64 content_id = 2;//评论的文章ID
+  string content = 3;
+  int64 like_cnt = 4;//点赞数
+}
