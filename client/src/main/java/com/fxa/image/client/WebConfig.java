@@ -17,11 +17,11 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-//    @Override
-//    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-//        converters.add(new ProtobufHttpMessageConverter());
-//        converters.add(new MappingJackson2HttpMessageConverter());
-//    }
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.add(new ProtobufHttpMessageConverter());
+        converters.add(new MappingJackson2HttpMessageConverter());
+    }
 
     @Bean
     public LoginInterceptor getLoginInterceptor() {

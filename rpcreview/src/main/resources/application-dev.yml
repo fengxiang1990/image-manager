@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: rpcreview  # 服务的名称，将会在Nacos中注册
+  config:
+    import: nacos:fxa-image-review
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848  # Nacos配置中心地址
+        file-extension: yml  # 配置文件后缀，默认为properties
+        shared-configs:
+          - data-id: fxa-image-review
+            group: DEFAULT_GROUP
+            refresh: true
+        prefix: fxa
+      discovery:
+        server-addr: 127.0.0.1:8848  # Nacos服务发现地址，通常和配置中心地址一致
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+
+server:
+  port: 9000  # 服务端口号
+
+
+#  logging.level.org.mybatis=DEBUG
+#  logging.level.web=DEBUG
+#  logging.level.com.fxa.image.client=DEBUG
+#  logging.file.name=image_client.log
+#  logging.file.path=/
+#  spring.data.redis.host=127.0.0.1
+#  spring.data.redis.port=6379
+
+logging:
+  level:
+    com.fxa.image.rpcreview: DEBUG
+    web: debug
+  file:
+    name: image_rpcreview.log
+    path: /

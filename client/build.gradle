@@ -44,6 +44,7 @@ java {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -55,6 +56,7 @@ dependencies {
     implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.17.1'
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     implementation 'com.google.protobuf:protobuf-java:3.18.1'
+    implementation 'com.fxa.image:common:0.0.1-SNAPSHOT'
     runtimeOnly 'ch.qos.logback:logback-classic:1.4.14'
     runtimeOnly 'com.mysql:mysql-connector-j'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'

@@ -1,10 +1,10 @@
 package com.fxa.image.client.inteceptor;
 
 import com.fxa.image.client.HttpResponse;
-import com.fxa.image.client.RedisConst;
 import com.fxa.image.client.model.LoginResult;
 import com.fxa.image.client.model.Ticket;
 import com.fxa.image.client.utils.JsonUtils;
+import com.fxa.image.common.RedisConst;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

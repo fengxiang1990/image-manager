@@ -1,8 +1,8 @@
 package com.fxa.image.client.robot;
 
-import com.fxa.image.client.RedisConst;
 import com.fxa.image.client.service.RedisService;
 import com.fxa.image.client.service.UserService;
+import com.fxa.image.common.RedisConst;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;

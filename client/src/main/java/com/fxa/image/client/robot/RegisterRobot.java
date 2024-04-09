@@ -1,12 +1,12 @@
 package com.fxa.image.client.robot;
 
-import com.fxa.image.client.RedisConst;
 import com.fxa.image.client.model.User;
 import com.fxa.image.client.service.UserService;
 import com.fxa.image.client.utils.PwdStringGenerator;
 import com.fxa.image.client.utils.RandomChineseCharacterGenerator;
 import com.fxa.image.client.utils.RandomChineseNicknameGenerator;
 import com.fxa.image.client.utils.SHAUtils;
+import com.fxa.image.common.RedisConst;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
