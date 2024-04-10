@@ -1,9 +1,9 @@
 vue-manage-system  后台管理系统的前端项目</br></br>
 src目录 是后台管理系统的服务器程序</br>
 </br>
-client目录  客户端服务器</br>
-主要用于制造数据</br>
-messagecenter 消息中心</br>
+client目录  客户端服务器，主要用于制造数据，模拟注册登录发布评论点赞等等，产生内容后发送消息到消息中心统一处理</br></br>
+
+messagecenter 消息中心，监听rabbitmq 消息队列 根据消息类型调用不同的服务</br>
 </br>
 rpcreview 自动审核服务 spring cloud+nacos 实现 负载均衡</br></br>
 
