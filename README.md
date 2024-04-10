@@ -1,6 +1,12 @@
-vue-manage-system  后台管理系统的前端项目</br>
+vue-manage-system  后台管理系统的前端项目</br></br>
 src目录 是后台管理系统的服务器程序</br>
+</br>
 client目录  客户端服务器</br>
+主要用于制造数据</br>
+messagecenter 消息中心</br>
+</br>
+rpcreview 自动审核服务 spring cloud+nacos 实现 负载均衡</br></br>
+
 
 后台界面
 ![image](https://github.com/fengxiang1990/image-manager/assets/5101992/990f6e14-1b15-49c5-a209-a14d05ea9e5c)
