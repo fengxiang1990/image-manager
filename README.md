@@ -12,7 +12,8 @@ rpcreview 自动审核服务 spring cloud+nacos 实现 负载均衡</br></br>
 后台界面
 ![image](https://github.com/fengxiang1990/image-manager/assets/5101992/990f6e14-1b15-49c5-a209-a14d05ea9e5c)
 
-![Uploading image.png…]()
+![image](https://github.com/fengxiang1990/image-manager/assets/5101992/c73fd8c0-b312-49eb-9061-a2004f337529)
+
 
 ![image](https://github.com/fengxiang1990/image-manager/assets/5101992/96bd5f3f-e3ab-48d4-bf48-13f8e9f3d3fa)
 ![image](https://github.com/fengxiang1990/image-manager/assets/5101992/bd27abe5-1148-4ffd-933a-c771dc2a0079)
