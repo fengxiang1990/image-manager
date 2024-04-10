@@ -1,4 +1,4 @@
-vue-manage-system  后台管理系统的前端项目</br></br>
+vue-manage-system  后台管理系统的前端项目，vite+ts+vue3+vue-elements+axio</br></br>
 src目录 是后台管理系统的服务器程序，
 使用spring security 加自定义 token实现 登录校验和权限管理</br></br>
 
