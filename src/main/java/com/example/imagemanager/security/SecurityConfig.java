@@ -15,6 +15,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import liquibase.pro.packaged.E;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,7 +127,12 @@ public class SecurityConfig {
             respBean.setRet(BaseResponse.SUCCESS);
             respBean.setData(loginResult);
             //登录信息放入redis中
-            Object obj = redisTemplate.opsForValue().get(user.getId());
+            Object obj = null;
+            try {
+                obj = redisTemplate.opsForValue().get(user.getId());
+            } catch (Exception e) {
+
+            }
             SysUserCache sysUserCache;
             if (obj instanceof String) {
                 sysUserCache = JsonUtils.fromJson((String) obj, SysUserCache.class);
@@ -207,7 +213,7 @@ public class SecurityConfig {
 //                                return new AuthorizationDecision(authSuc);
 //                            }
 //                        })
-                        .hasAnyAuthority("admin","admin_normal","admin_content_manager")
+                        .hasAnyAuthority("admin", "admin_normal", "admin_content_manager")
                         .anyRequest().authenticated()
         );
         //禁用匿名认证
@@ -256,6 +262,10 @@ public class SecurityConfig {
         @Override
         protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
             System.out.println("MyFilter doFilterInternal uid->" + request.getHeader("uid"));
+            if (request.getHeader("uid") == null) {
+                filterChain.doFilter(request, response);
+                return;
+            }
             Object obj = redisTemplate.opsForHash().get(Const.REDIS_SECURE_AUTHENTICATION_CACHE, request.getHeader("uid"));
             if (obj instanceof Authentication) {
                 SecurityContextHolder.getContext().setAuthentication((Authentication) obj);

@@ -1,29 +1,25 @@
 package com.fxa.image.common.message;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Content implements Serializable {
+public class Content extends SortedContent {
     @Serial
     private static final long serialVersionUID = -8247528687520982804L;
     public Content(){
 
     }
 
-    private long id;
-
     private String uid;
     private String title;
     private String content;
     private String url;
 
-    private int status;//0 默认待审核状态 1自动审核通过 2 自动审核不通过 3 人工审核通过 4 人工审核不通过
+
 
     private long views;
     private long like;
 
-    private int score;
     private ArrayList<Integer> topic;
     private ArrayList<Integer> label;
 
@@ -75,13 +71,6 @@ public class Content implements Serializable {
         this.like = like;
     }
 
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
 
     public ArrayList<Integer> getTopic() {
         return topic;
@@ -99,21 +88,7 @@ public class Content implements Serializable {
         this.label = label;
     }
 
-    public int getStatus() {
-        return status;
-    }
 
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
 
     @Override

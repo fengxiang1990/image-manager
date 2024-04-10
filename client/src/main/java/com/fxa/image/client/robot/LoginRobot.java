@@ -93,8 +93,12 @@ public class LoginRobot extends BaseRobot{
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                     LOGGER.debug("onResponse:"+(response.code() == 200 ? "success" : "failed"));
-                    if(response.code() != 200){
-                        call.cancel();
+                    try {
+                        if (response.code() != 200) {
+                            call.cancel();
+                        }
+                    } finally {
+                        response.close();
                     }
                 }
             });
