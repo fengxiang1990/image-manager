@@ -8,6 +8,8 @@ messagecenter 消息中心，监听rabbitmq 消息队列 根据消息类型调�
 </br>
 rpcreview 自动审核服务 spring cloud+nacos 实现 负载均衡</br></br>
 
+store 商品抢购服务，先预加载活动商品到多个redis实例中，再模拟并发场景下的抢购，使用redis 锁和事务完成redis和MySQL 库存同步<br><br>
+
 
 后台界面
 ![image](https://github.com/fengxiang1990/image-manager/assets/5101992/990f6e14-1b15-49c5-a209-a14d05ea9e5c)
