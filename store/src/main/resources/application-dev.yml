@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: store  # 服务的名称，将会在Nacos中注册
+  config:
+    import: nacos:fxa-image-store
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848  # Nacos配置中心地址
+        file-extension: yml  # 配置文件后缀，默认为properties
+        shared-configs:
+          - data-id: fxa-image-store
+            group: DEFAULT_GROUP
+            refresh: true
+        prefix: fxa
+      discovery:
+        server-addr: 127.0.0.1:8848  # Nacos服务发现地址，通常和配置中心地址一致
+  data:
+    redis:
+      first:
+        host: 127.0.0.1
+        port: 6379
+      second:
+        host: 127.0.0.1
+        port: 6380
+#  data:
+##    redis:
+#      cluster:
+#        nodes: 127.0.0.1:6379,127.0.0.1:6380
+#      lettuce:
+#        pool:
+#          max-active: 8
+#          max-idle: 8
+#          min-idle: 0
+#          max-wait: -1
+
+server:
+  port: 8090  # 服务端口号
+
+#  logging.level.org.mybatis=DEBUG
+#  logging.level.web=DEBUG
+#  logging.level.com.fxa.image.client=DEBUG
+#  logging.file.name=image_client.log
+#  logging.file.path=/
+#  spring.data.redis.host=127.0.0.1
+#  spring.data.redis.port=6379
+
+logging:
+  level:
+    com.fxa.image.rpcreview: DEBUG
+    web: debug
+  file:
+    name: image_store.log
+    path: /
